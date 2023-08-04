@@ -1,8 +1,10 @@
+name: Maven e2e test - simple
 on:
-  schedule:
-    - cron: "0 6 * * *"
-  workflow_dispatch:
-
+  - workflow_dispatch
+#  schedule:
+#    - cron: "0 6 * * *"
+#  workflow_dispatch:
+#
 permissions: read-all
 
 env:
@@ -15,7 +17,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
-      - run: mv e2e/maven/pom.xml ./ && cp -r e2e/maven/src ./ && rm -r e2e/maven/src
+#      - run: mv e2e/maven/pom.xml ./ && cp -r e2e/maven/src ./ && rm -r e2e/maven/src
 
   build:
     #runs-on: ubuntu-latest
@@ -24,6 +26,8 @@ jobs:
       contents: read # For repo checkout of private repos.
       actions: read # For getting workflow run on private repos.
     uses: slsa-framework/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@main
+    with:
+      directory: ./e2e/maven
 
   verify:
     runs-on: ubuntu-latest
